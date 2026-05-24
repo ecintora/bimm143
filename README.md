@@ -1,2 +1,8 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
 # bimm143
-Bioinformatics Class
+This repo is for my UCSD bioinformatics class. 
+
