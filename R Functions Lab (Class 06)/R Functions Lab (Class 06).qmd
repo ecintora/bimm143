@@ -1,0 +1,154 @@
+---
+title: "R Functions Lab (Class 06)"
+author: "Eddie Cintora (A17862193)"
+date: "April 16, 2026"
+format: pdf
+---
+
+### Q1. Write your first R function: add()
+
+```{r}
+## Q1. Write your first R function: add()
+
+### Q1a
+add <- function(x, y) {
+  x + y
+}
+
+add(4, 7)
+```
+
+Q1b
+
+```{r}
+add <- function(x, y = NULL) {
+  if (is.null(y)) {
+    sum(x)
+  } else {
+    x + y
+  }
+}
+
+add(4, 7)
+add(c(4, 7, 10))
+```
+
+Q1c
+
+```{r}
+add <- function(...) {
+  sum(...)
+}
+
+add(4, 7)
+add(c(4, 7, 10))
+add(1, 2, 3, -4)
+```
+
+### Q2. Write a generate_dna() function
+
+```{r}
+generate_dna <- function(n) {
+  nts <- c("A", "T", "G", "C")
+  sample(nts, size = n, replace = TRUE)
+}
+
+generate_dna(6)
+```
+
+Q2b
+
+```{r}
+generate_dna <- function(n, as_string = TRUE) {
+  nts <- c("A", "T", "G", "C")
+  seq_vec <- sample(nts, size = n, replace = TRUE)
+  
+  if (as_string) {
+    paste(seq_vec, collapse = "")
+  } else {
+    seq_vec
+  }
+}
+
+generate_dna(6, as_string = FALSE)
+generate_dna(11)
+```
+
+Q2c
+
+```{r}
+generate_dna <- function(n) {
+  nts <- c("A", "T", "G", "C")
+  seq_vec <- sample(nts, size = n, replace = TRUE)
+  seq_string <- paste(seq_vec, collapse = "")
+  
+  cat(paste0(">len", n, "\n", seq_string, "\n"))
+}
+
+generate_dna(11)
+```
+
+### Q3. Write a generate_protein() function
+
+```{r}
+generate_protein <- function(n) {
+  aa <- c("A", "R", "N", "D", "C", "E", "Q", "G", "H", "I",
+          "L", "K", "M", "F", "P", "S", "T", "W", "Y", "V")
+  
+  seq_vec <- sample(aa, size = n, replace = TRUE)
+  paste(seq_vec, collapse = "")
+}
+
+generate_protein(6)
+```
+
+### Q4. Generate random protein sequences of length 6 to 13
+
+```{r}
+for (i in 6:13) {
+  cat(paste0(">id.", i, "\n"))
+  cat(generate_protein(i), "\n")
+}
+```
+
+### Q5. BLASTp search against nr — are your peptides “unique in nature”?
+
+**Sequence generated utilized for BLAST results:**
+
+\>id.6\
+TDAWPL\
+\>id.7\
+YGLNYKY\
+\>id.8\
+ARNKIRME\
+\>id.9\
+IHRNVMDTW\
+\>id.10\
+GCLIHIQYVT\
+\>id.11\
+MLACGVSTCHI\
+\>id.12\
+RCCESASQEEKI\
+\>id.13\
+NEGICNLWGQSTH
+
+**Results Table**
+
+| Length (aa) | Best hit % identity | Best hit % coverage | Unique? (Y/N) |
+|-------------|---------------------|---------------------|---------------|
+| 6           | 100%                | 100%                | N             |
+| 7           | 100%                | 100%                | N             |
+| 8           | 100%                | 100%                | N             |
+| 9           | 87.5%               | 89%                 | Y             |
+| 10          | 90.0%               | 90%                 | Y             |
+| 11          | 90.0%               | 91%                 | Y             |
+| 12          | 66.7%               | 100%                | Y             |
+| 13          | 88.9%               | 69%                 | Y             |
+
+Q5a: Random peptides will appear “unique in nature” when approachinf the approximate 9 amino acid length. Shorter sequences have displayed a trend in perfect matches, while longer sequences usually did not.
+
+Q5b: Peptides very short in length are frequently found because the total sequence space utilized is small. The number of possible sequences is 20\^L, so as length begins to increase, the number of possible sequences grows exponentially with it. This begins to exceed the number of known proteins very fast, making exact matches unlikely.
+
+### Q6. Connecting your findings to immunology (MHC class II and T-cell activation)
+
+The minimum peptide length required for MHC class II presentation is most likely to be around 9–12 amino acids. Shorter peptides are not a great choice because they are too common in length and may appear in both self and non-self proteins. This would make it hard for the immune system to distinguish between them. Longer peptides occupy a much larger sequence space, making them more unique and better suited for identifying foreign antigens. This improves the specificity of immune recognition and helps ensure appropriate T-cell activation.

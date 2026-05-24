@@ -1,0 +1,252 @@
+---
+title: "Class 7 Lab"
+author: "Eduardo Cintora (A17862193)"
+date: "April 21, 2026"
+format: pdf
+editor: visual
+---
+
+```{r}
+# Setup
+# Load libraries
+library(tidyverse)   # includes ggplot2, tidyr, tibble, dplyr
+library(pheatmap)
+```
+
+## 1. PCA of UK Food Data
+
+The UK foods dataset contains weekly food consumption values for 17 food categories measured across four countries: England, Wales, Scotland, and Northern Ireland.
+
+#### Data Import
+
+```{r}
+url <- "https://tinyurl.com/UK-foods"
+x <- read.csv(url)
+```
+
+### Q1. How many rows and columns are in x? What functions can be used to be find this?
+
+```{r}
+dim(x)
+nrow(x)
+ncol(x)
+```
+
+The imported data frame has 17 rows and 5 columns. Functions that can be used to determine this include dim(), nrow(), and ncol().
+
+#### Checking data
+
+```{r}
+head(x)
+tail(x)
+```
+
+The first column contains food names, but those names should really be row names. That is why the dataset has 5 columns instead of the expected 4 country columns.
+
+```{r}
+rownames(x) <- x[,1]
+x <- x[,-1]
+head(x)
+dim(x)
+```
+
+After fixing the row names, the dataset now has 17 rows and 4 columns, which matches the four UK countries.
+
+### Q2. Which row-name fix approach do I prefer and why?
+
+I prefer re-reading the file with "row.names = 1", as it is cleaner and easier to remember. The manual approach works, but if I accidentally run it multiple times, it will keep removing the first column and damage the dataset. Re-importing with "row.names = 1", it avoids that problem and is safer for reproducible analysis.
+
+```{r}
+x <- read.csv(url, row.names = 1)
+head(x)
+dim(x)
+```
+
+## Spotting major differences and trends
+
+#### Base R barplot
+
+```{r}
+barplot(as.matrix(x), beside = TRUE, col = rainbow(nrow(x)))
+```
+
+### Q3. What argument change creates a stacked version?
+
+If I change "beside=TRUE" to "beside=FALSE" the bars become stacked instead of side-by-side. Leaving beside out has the same effect because the default is FALSE.
+
+```{r}
+barplot(as.matrix(x), beside = FALSE, col = rainbow(nrow(x)))
+```
+
+#### Optional ggplot version with tidy data
+
+In order to use ggplot2, the data needs to be converted from a wide format to long format.
+
+```{r}
+x_long <- x |>
+  rownames_to_column("Food") |>
+  pivot_longer(
+    cols = -Food,
+    names_to = "Country",
+    values_to = "Consumption"
+  )
+
+dim(x_long)
+head(x_long)
+```
+
+```{r}
+ggplot(x_long) +
+  aes(Country, Consumption, fill = Food) +
+  geom_col(position = "dodge") +
+  theme_bw()
+```
+
+### Q4. What argument change gives the stacked ggplot version?
+
+To make a stacked barplot in ggplot 2, I can change the position from dodge to stack.
+
+```{r}
+ggplot(x_long) +
+  aes(x = Country, y = Consumption, fill = Food) +
+  geom_col(position = "stack") +
+  theme_bw()
+```
+
+## Pairs Plots and Heatmaps
+
+### Q5.
+
+#### Pairplot
+
+```{r}
+pairs(x, col = rainbow(nrow(x)), pch = 16)
+```
+
+This command makes all pairwise scatterplots between the four country variables. Each point represents one food category. If a point lies on the diagonal in a given pairwise comparison, that means the two countries have the same value for that food in that specific plot.
+
+#### Heatmap
+
+```{r}
+pheatmap(as.matrix(x))
+```
+
+### Q6. Which countries cluster together, and what does this suggest?
+
+From both the pairs plot and the heatmap, England, Wales, and Scotland cluster more closely together, while Northern Ireland appears more distinct. This suggests that England, Wales, and Scotland have more similar overall food consumption patterns, whereas Northern Ireland differs more strongly across several food categories.
+
+It is not especially easy to identify the exact major differences just by looking at the raw pairs plot and heatmap alone, but Northern Ireland seems to stand out in foods such as fresh potatoes and soft drinks, while some of the other countries are associated more with foods like fresh fruit and alcoholic drinks.
+
+## PCA to the Rescue
+
+The lab notes that prcomp() expects observations to be rows and variables to be columns, so the food table must be transposed before PCA. The page also reports that the first two PCs explain about 67.44% and 29.05% of the variance, respectively.
+
+```{r}
+pca <- prcomp(t(x))
+summary(pca)
+```
+
+### Q7. Plot PC1 vs PC2
+
+```{r}
+pca <- prcomp(t(x))
+summary(pca)
+
+df <- as.data.frame(pca$x)
+df$Country <- rownames(df)
+
+ggplot(df) +
+  aes(PC1, PC2, label = Country) +
+  geom_point(size = 3) +
+  geom_text(vjust = -0.5) +
+  theme_bw()
+```
+
+This PCA plot shows that England, Wales, and Scotland group relatively close together, while Northern Ireland is clearly separated, mainly along PC1.
+
+### Q8. Customize country label colors
+
+```{r}
+country_cols <- c(
+  "England" = "orange",
+  "Wales" = "red",
+  "Scotland" = "blue",
+  "N.Ireland" = "darkgreen"
+)
+
+ggplot(df) +
+  aes(x = PC1, y = PC2, label = Country, color = Country) +
+  geom_point(size = 3) +
+  geom_text(vjust = -0.5, show.legend = FALSE) +
+  scale_color_manual(values = country_cols) +
+  xlim(-270, 500) +
+  xlab("PC1") +
+  ylab("PC2") +
+  theme_bw()
+```
+
+#### Variance explained
+
+```{r}
+v <- round(pca$sdev^2 / sum(pca$sdev^2) * 100)
+v
+```
+
+```{r}
+z <- summary(pca)
+z$importance
+```
+
+The first principal component explains most of the variation, and the first two PCs together explain nearly all of it. This means that a two-dimensional PCA plot captures the major trends in the original 17-dimensional dataset very well.
+
+#### Scree plot
+
+```{r}
+variance_df <- data.frame(
+  PC = factor(paste0("PC", 1:length(v)), levels = paste0("PC", 1:length(v))),
+  Variance = v
+)
+
+ggplot(variance_df) +
+  aes(x = PC, y = Variance) +
+  geom_col(fill = "steelblue") +
+  xlab("Principal Component") +
+  ylab("Percent Variation") +
+  theme_bw()
+```
+
+The scree plot confirms that **PC1 and PC2 dominate**, while the later components contribute very little additional variance.
+
+## Digging deeper: variable loadings
+
+### PC1 loading
+
+```{r}
+ggplot(as.data.frame(pca$rotation)) +
+  aes(x = PC1, y = reorder(rownames(pca$rotation), PC1)) +
+  geom_col(fill = "steelblue") +
+  xlab("PC1 Loading Score") +
+  ylab("") +
+  theme_bw() +
+  theme(axis.text.y = element_text(size = 9))
+```
+
+The foods with the strongest positive PC1 loadings help push Northern Ireland to the positive side of the PCA plot, while foods with strong negative PC1 loadings help separate England, Wales, and Scotland to the other side.
+
+### Q9. PC2 loadings
+
+```{r}
+ggplot(as.data.frame(pca$rotation)) +
+  aes(x = PC2, y = reorder(rownames(pca$rotation), PC2)) +
+  geom_col(fill = "steelblue") +
+  xlab("PC2 Loading Score") +
+  ylab("") +
+  theme_bw() +
+  theme(axis.text.y = element_text(size = 9))
+```
+
+PC2 appears to capture a secondary difference among the three more similar countries. The two most prominent food groups should be identified by inspecting the largest positive and negative bars on the PC2 loading plot. In general, PC2 tells us about the second-largest source of dietary variation after the strong Northern Ireland vs. rest-of-UK split captured by PC1.
+
+## Conclusion
+
+Overall, PCA reduced a 17-dimensional food dataset to just two principal components that still preserve the vast majority of the variation. England, Wales, and Scotland cluster together, while Northern Ireland is more distinct. This makes PCA much more useful than trying to interpret the raw table or many pairwise plots alone.

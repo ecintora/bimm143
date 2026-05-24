@@ -1,0 +1,40 @@
+---
+title: "Find A Gene Project (Part 1)"
+author: "Eddie Cintora (A17862193)"
+date: "April 20, 2026"
+format: pdf
+---
+
+#### Q1 Protein Identified: KIF11
+
+The protein selected for this analysis is **kinesin-like protein KIF11** from *Homo sapiens* (accession number: NP_004514.2). KIF11 is a member of the kinesin superfamily of motor proteins, which are responsible for ATP-dependent movement along microtubules. Functionally, KIF11 plays a critical role during mitosis by facilitating the formation of the bipolar spindle and enabling proper chromosome segregation. Due to its essential role in cell division, it is a well-characterized protein involved in maintaining genomic stability.
+
+#### Q2 TBLASTN Search
+
+To identify homologous nucleotide sequences encoding proteins similar to KIF11, a TBLASTN search was performed using the amino acid sequence of human KIF11 as the query. This method allows a protein sequence to be compared against a translated nucleotide database, making it possible to detect coding regions within genomic DNA.
+
+The search was conducted against the NCBI core nucleotide (nt) database, which includes genomic sequences and expressed sequence tags (ESTs). To increase the likelihood of identifying less-characterized or potentially novel sequences, the search was restricted to organisms within the **Stramenopiles (taxid:33634)**, a group that includes many species with relatively incomplete genome annotation.
+
+The BLAST output revealed several significant alignments, with the top hits corresponding primarily to genomic contigs from *Albugo laibachii*. Among these, sequences such as *Albugo laibachii* Nc14 genomic contig CONTIG_77 (Accession: FR824122.1) and CONTIG_18 (Accession: FR824063.1) showed measurable similarity to the query protein. These results represent DNA sequences that likely encode proteins containing conserved domains related to kinesin motor function.
+
+For further analysis, the alignment with **CONTIG_77** was selected. This alignment produced an **E-value of 3e-75**, indicating a statistically significant match. However, the **percent identity** was approximately **39.8%**, and the **query coverage** was only about **7%**, suggesting that the similarity is limited to a conserved region rather than representing a full-length homolog. This pattern is consistent with partial domain conservation, particularly within the kinesin motor domain.
+
+#### Q3 Protein sequence of hypothetical protein \[Lucifuga dentata\]
+
+From subsequent analysis of BLAST results, a candidate protein sequence was obtained and is presented below in standard FASTA format:
+
+> \>hypothetical protein LDENG_00294620 \[Lucifuga dentata\] MPSNKLEKPELKVEVDNVKVVVRCRPLNQKEKMMGHKQAVIVDEIRGTITVNKLETPQEPPKTFTFDTVFGPDSKQPDAYNLTARPIVDSVLEGYNGTIFAYGQTGTGKTFTMEGVRAVPELRGIIPNSFAHIFGHIAKAEGDTRFLVRVSYLEIYNEEVRDLLGKDQMQRLEVKERPDVGVYIKDLTGYVVNNADDMDRIMTLGHKNRSVGATNMNEHSSRSHAIFTITIECSEKGVDGNQHVRMGKLHLVDLAGSERQGKTGATGQRLKEATKINLSLSTLGNVISALVDGKSTHVPYRNSKLTRLLQDSLGGNSKTMMCANIGPADYNYDETISTLRYANRAKNIKNKARINEDPKDALFRQFQKEIEELKKKLVEGEEISGSEGSGSEEMDEGDDEGGEAGEVRRRRRGRKKVSPDKMVEMQARIEEERKALEAKLDMEEEERNKARAELERREKDLLKAQQEHHLLLEKLSVLEKKVIVGGVDPLAKAEEQEKLLQESNNELEERRRRAEQLRKELEEKEQERLDTEEKYTSLQEEAQGKTKKLKKVWTMLMAAKSEMADLQQEHHREIEGLLENIRQLSRELRLQMLIIDNFIPQEYQEMIENYVHWNEDIGEWQLKCVAYTGNNMRKQTPAPDKKEKDPFEVDLSHVYLAYTEESMRQSLMKLERPRTSKSGKNGRPKTGRRKRSAKPDAVIDSLLQ
+
+This sequence includes a properly formatted header containing both the protein name and species, as well as the complete amino acid sequence. The protein is annotated as a hypothetical protein, indicating that while the sequence has been predicted, its function may not yet be fully characterized.
+
+#### Q4 Is this Protein novel?
+
+To assess whether the identified protein is novel, the sequence above was used as a query in a BLASTP search against the NCBI non-redundant protein database. This analysis allows direct comparison to previously characterized protein sequences.
+
+The BLASTP results revealed that the top hit corresponds to the same protein, **hypothetical protein LDENG_00294620 from *Lucifuga dentata***, with **100% amino acid identity**, **100% query coverage**, and an **E-value of 0.0**. Additional high-scoring matches included kinesin-like protein KIF3A isoforms from a variety of species, typically showing approximately 97–98% identity.
+
+The presence of a perfect match in the same species demonstrates that this protein sequence has already been identified and deposited in public databases. According to the criteria provided for this assignment, a protein is considered novel only if no identical sequence exists in the database. Because a 100% identical match is present, this protein **does not qualify as novel**.
+
+#### Current Conclusion
+
+This analysis demonstrates the use of BLAST tools to identify and evaluate protein homology across species. While the search strategy successfully identified sequences in less well-annotated organisms and revealed conserved regions characteristic of kinesin-related proteins, the final BLASTP results indicate that the selected protein has already been characterized. Therefore, it does not meet the criteria for novelty. This outcome highlights the importance of careful interpretation of BLAST results when distinguishing between previously annotated proteins and truly novel gene products.
