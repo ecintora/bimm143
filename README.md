@@ -15,9 +15,9 @@ Class 5: [Data viz with ggplot2]
 
 Class 6: [R Functions]()
 
-Class 7: []()
+Class 7: [](Class-Lab-7---Eduardo-Cintora.pdf)
 
-Class 8: []()
+Class 8: [](lab8.pdf)
 
 Class 9: []()
 
