@@ -11,7 +11,7 @@ Class 4: [Introduction to R](class04.R)
 
 Class 5: [Data viz with ggplot2](class5.pdf)
 
-Class 6: [R Functions](class6.qmd)
+Class 6: [R Functions](HWclass6.qmd)
 
 Class 7: [Machine learning for Bioinformatics](Class-Lab-7---Eduardo-Cintora.pdf)
 
@@ -23,18 +23,18 @@ Class 10: [Structural Bioinformatics pt.1]()
 
 Class 11: [Structural Bioinformatics (pt. 2 Alphafold]()
 
-Class 12: []()
+Class 12: [Population Analysis](lab12_galaxy.pdf)
 
-Class 13: []
+Class 13: [DESeq Lab](bimm143_lab13_deseq_quarto.pdf)
 
-Class 14:
+Class 14: [DESeq 2 Mini Project](class14.qmd)
 
-Class 15:
+Class 15: [Github Repo]
 
-Class 16:
+Class 16: [Unix Basics]
 
-Class 18:
+Class 18: [Pertussis Resurgence](class18.pdf)
 
-Class 19: 
+Class 19: [Cancer Mutation Mini Project](lab19.pdf)
 
-Class 20:
+Class 20: [This Page!!]
