@@ -21,7 +21,7 @@ Class 9: [Candy Mini-project](bimm143/class9.qmd)
 
 Class 10: [Structural Bioinformatics pt.1]()
 
-Class 11: [Structural Bioinformatics (pt. 2 Alphafold]()
+Class 11: [Structural Bioinformatics (pt. 2 Alphafold)](bimm143/lab11---alphafold.pdf)
 
 Class 12: [Population Analysis](bimm143/lab12_galaxy.pdf)
 
@@ -29,9 +29,9 @@ Class 13: [DESeq Lab](bimm143/bimm143_lab13_deseq_quarto.pdf)
 
 Class 14: [DESeq 2 Mini Project](bimm143/class14.qmd)
 
-Class 15: [Github Repo]
+Class 15: [Github Repo]()
 
-Class 16: [Unix Basics]
+Class 16: [Unix Basics]()
 
 Class 18: [Pertussis Resurgence](bimm143/class18.pdf)
 
