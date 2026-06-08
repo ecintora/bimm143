@@ -29,7 +29,7 @@ Class 13: [DESeq Lab](bimm143/bimm143_lab13_deseq_quarto.pdf)
 
 Class 14: [DESeq 2 Mini Project](bimm143/class14.qmd)
 
-Class 15: [Github Repo]()
+Class 15: [Github Repo](https://github.com/ecintora/bimm143)
 
 Class 16: [Unix Basics]()
 
@@ -37,4 +37,4 @@ Class 18: [Pertussis Resurgence](bimm143/class18.pdf)
 
 Class 19: [Cancer Mutation Mini Project](bimm143/lab19.pdf)
 
-Class 20: [This Page!!]
+Class 20: [This Page!!](https://ecintora.github.io/bimm143/)
